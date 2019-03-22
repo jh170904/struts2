@@ -32,11 +32,6 @@ public class SqlMapConfig {
 		return sqlMap;
 		
 	}
-	
-	
-	
-	
-	
-	
+
 	
 }
