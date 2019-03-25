@@ -3,15 +3,34 @@
  "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
 <package name="board" extends="struts-default" namespace="/bbs" >        
-
+	<!-- 게시글 작성 -->
 	<action name="created" method="created" class="com.board.BoardAction">
 		<result name="input">/board/created.jsp</result>
 		<!-- 작성완료시 반환값이 success -->
 		<result name="success" type="redirectAction">list</result>
-	</action>	
+	</action>
+	<!-- 게시판리스트 -->
 	<action name="list" method="list" class="com.board.BoardAction">
 		<result name="success">/board/list.jsp</result>
 	</action>
-
+	<!-- 게시글조회 -->
+	<action name="article" method="article" class="com.board.BoardAction">
+		<result name="success">/board/article.jsp</result>
+	</action>
+	<!-- 게시글수정 -->
+	<action name="updated" method="updated" class="com.board.BoardAction">
+		<result name="input">/board/created.jsp</result>
+		<result name="success" type="redirectAction">list?pageNum=${dto.pageNum}&amp;searchKey=${searchKey}&amp;searchValue=${searchValue}</result>
+	</action>
+	<!-- 게시글답변 -->
+	<action name="reply" method="reply" class="com.board.BoardAction">
+		<result name="input">/board/created.jsp</result>
+		<result name="success" type="redirectAction">list?pageNum=${dto.pageNum}&amp;searchKey=${searchKey}&amp;searchValue=${searchValue}</result>
+	</action>
+	<!-- 게시글삭제 -->
+	<action name="deleted" method="deleted" class="com.board.BoardAction">
+		<result name="success" type="redirectAction">list?pageNum=${dto.pageNum}&amp;searchKey=${searchKey}&amp;searchValue=${searchValue}</result>
+	</action>
+	
 </package>
 </struts>

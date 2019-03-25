@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
@@ -12,60 +13,99 @@
 <link rel="stylesheet" href="<%=cp %>/board/css/style.css" type="text/css" />
 <link rel="stylesheet" href="<%=cp %>/board/css/article.css" type="text/css" />
 
+<script type="text/javascript">
+	function sendData(value){
+		var boardNum = "${dto.boardNum}"; /* Action클래스에서 넘어오는 파라미터값 */
+		
+		var url = "<%=cp %>/bbs/";
+		
+		/* 삭제, 수정, 답변 링크 */
+		if(value=="delete")
+			url += "deleted.action";
+		else if(value=="update")
+			url += "updated.action";
+		else if(value=="reply")
+			url += "reply.action";
+		
+		url += "?boardNum=" + boardNum;
+		url += "&${params}"
+		location.replace(url);
+	}
+
+</script>
+
 </head>
 <body>
 
 <div id="bbs">
 	<div id="bbs_title">
-	게 시 판
+	게 시 판(Struts2)
 	</div>
 	<div id="bbsArticle">
 		<div id="bbsArticle_header">
-		게시물 제목
+		${dto.subject }
 		</div>
 		<div class="bbsArticle_bottomLine">
 			<dl>
 				<dt>작성자</dt>
-				<dd>배수지</dd>
+				<dd>${dto.name }</dd>
 				<dt>줄수</dt>
-				<dd>10</dd>
+				<dd>${lineSu }</dd>
 			</dl>
 		</div>	
 		<div class="bbsArticle_bottomLine">
 			<dl>
 				<dt>등록일</dt>
-				<dd>2019-2-20</dd>
+				<dd>${dto.created}</dd>
 				<dt>조회수</dt>
-				<dd>10</dd>
+				<dd>${dto.hitCount}</dd>
 			</dl>
 		</div>	
 		<div id="bbsArticle_content">
 			<table width="600" border="0">
 			<tr>
 				<td style="padding: 20px 80px 20px 62px;" valign="top" height="200">
-				게시물 내용
+				${dto.content}
 				</td>
 			</tr>
 			</table>
 		</div>
+		
+		<div class="bbsArticle_bottomLine" >
+		이전글 : 
+		<c:if test="${!empty preSubject }">
+			<a href="<%=cp%>/bbs/article.action?${params}&boardNum=${preBoardNum}">
+			${preSubject }
+			</a>
+		</c:if>
+		</div>
+		
+		<div class="bbsArticle_bottomLine" >
+		다음글 : 
+		<c:if test="${!empty nextSubject }">
+			<a href="<%=cp%>/bbs/article.action?${params}&boardNum=${nextBoardNum}">
+			${nextSubject }
+			</a>
+		</c:if>
+		</div>
+		
 	</div>
 
 	<div class="bbsArticle_noLine" style="text-align: right;">
-		from 127.0.0.1
+		from ${dto.ipAddr}
 	</div>
 
 	<div id="bbsArticle_footer">
 		<div id="leftFooter">
-			<input type="button" value=" 수정 " class="btn2" onclick="" />
-			<input type="button" value=" 삭제 " class="btn2" onclick="" />
+			<input type="button" value=" 답변 " class="btn2" onclick="sendData('reply')" />
+			<input type="button" value=" 수정 " class="btn2" onclick="sendData('update')" />
+			<input type="button" value=" 삭제 " class="btn2" onclick="sendData('delete')" />
 		</div>
 		<div id="rightFooter">
-			<input type="button" value=" 리스트 " class="btn2" onclick="" />
+			<input type="button" value=" 리스트 " class="btn2" 
+			onclick="javascript:location.href='<%=cp %>/bbs/list.action?${params }';" />
 		</div>
 	</div>
 </div>
-
-
-
 </body>
 </html>

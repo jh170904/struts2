@@ -26,7 +26,7 @@
 
 <div id="bbsList">
 	<div id="bbsList_title">
-	게 시 판
+	게 시 판(Struts2)
 	</div>
 
 	<div id="bbsList_header">
@@ -43,7 +43,7 @@
 		</div>
 		<div id="rightHeader">
 			<input type="button" value=" 글올리기 " class="btn2" 
-			onclick="javascript:location.href='<%=cp %>/bbs/created.action';"/>
+			onclick="javascript:location.href='<%=cp %>/bbs/created.action?${params}';"/>
 		</div>
 	</div>
 	
@@ -62,6 +62,14 @@
 			<dl>
 				<dd class="num">${dto.listNum }</dd>
 				<dd class="subject">
+				
+				<c:if test="${dto.depth!=0 }">
+					<c:forEach var="i" begin="1" end="${dto.depth }" step="1">
+						&nbsp;
+					</c:forEach>
+					<img alt="" src="<%=cp%>/board/image/re.gif">
+						
+				</c:if>
 					<a href="${urlArticle }&boardNum=${dto.boardNum}">${dto.subject}</a> 
 				</dd>
 				<dd class="name">${dto.name}</dd>
